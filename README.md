@@ -21,4 +21,31 @@ A principal mudança neste projeto em relação a versões anteriores é a estru
 
 ## 🛠 Tecnologias Utilizadas
 
-*
+* **[React](https://reactjs.org/):** Biblioteca de UI.
+* **[Redux Toolkit](https://redux-toolkit.js.org/):** Gerenciamento de estado moderno.
+* **[React Redux](https://react-redux.js.org/):** Hooks (`useSelector`, `useDispatch`) para conectar os componentes à store.
+* **[Styled Components](https://styled-components.com/):** Estilização modular.
+* **[TypeScript](https://www.typescriptlang.org/):** (Se implementado) Para tipagem estática dos reducers e estados.
+
+## 🧩 Funcionalidades Gerenciadas pelo Redux
+
+1.  **Carrinho de Compras:**
+    * **Adicionar:** Verifica se o jogo já existe no carrinho antes de adicionar.
+    * **Remover:** Exclui o item pelo ID e recalcula o layout.
+    * **Contagem:** O Header "escuta" o estado global para mostrar o número de itens instantaneamente.
+2.  **Catálogo:**
+    * Armazenamento da lista de produtos vindos da API (ou JSON local) para distribuição eficiente entre componentes.
+
+## 📂 Estrutura de Pastas (Padrão Redux)
+
+A organização reflete a separação entre UI e Lógica de Estado:
+
+```text
+src/
+├── components/      # Componentes visuais (Header, Produto)
+├── pages/           # Rotas da aplicação
+├── store/           # O "Cérebro" da aplicação
+│   ├── reducers/    # Fatias de estado (carrinho.js, jogos.js)
+│   └── index.js     # Configuração da Store
+├── styles/          # Estilos globais
+└── App.js           # Integração com o <Provider>
