@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# 🕹️ EBAC Games - Redux Edition
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Status](https://img.shields.io/badge/Status-Concluído-green)
+![React](https://img.shields.io/badge/React-18-blue)
+![Redux Toolkit](https://img.shields.io/badge/Redux-Toolkit-764ABC)
+![Styled Components](https://img.shields.io/badge/Style-Styled_Components-db7093)
 
-## Available Scripts
+## 💻 Sobre o Projeto
 
-In the project directory, you can run:
+Este repositório contém a versão evoluída do projeto **EBAC Games**. O foco central deste desenvolvimento foi a implementação do **Redux Toolkit**, a ferramenta padrão da indústria para gerenciamento de estado eficiente em React.
 
-### `npm start`
+O desafio técnico consistiu em remover a complexidade de passar propriedades (props) por múltiplos níveis de componentes ("prop drilling") e centralizar as regras de negócio — como adicionar itens ao carrinho, calcular totais e remover produtos — em uma *Store* global e acessível.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ⚙️ Diferenciais da Arquitetura
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+A principal mudança neste projeto em relação a versões anteriores é a estrutura de dados:
 
-### `npm test`
+* **Centralização (Single Source of Truth):** Todo o estado do carrinho de compras reside em um único local (`store`), tornando a aplicação previsível e fácil de debugar.
+* **Redux Toolkit (RTK):** Utilização de `createSlice` e `configureStore` para reduzir o código repetitivo (boilerplate) e facilitar a escrita de lógica imutável.
+* **API Integration:** (Se aplicável) Uso de chamadas assíncronas organizadas para popular a vitrine de jogos.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠 Tecnologias Utilizadas
 
-### `npm run build`
+* **[React](https://reactjs.org/):** Biblioteca de UI.
+* **[Redux Toolkit](https://redux-toolkit.js.org/):** Gerenciamento de estado moderno.
+* **[React Redux](https://react-redux.js.org/):** Hooks (`useSelector`, `useDispatch`) para conectar os componentes à store.
+* **[Styled Components](https://styled-components.com/):** Estilização modular.
+* **[TypeScript](https://www.typescriptlang.org/):** (Se implementado) Para tipagem estática dos reducers e estados.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🧩 Funcionalidades Gerenciadas pelo Redux
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1.  **Carrinho de Compras:**
+    * **Adicionar:** Verifica se o jogo já existe no carrinho antes de adicionar.
+    * **Remover:** Exclui o item pelo ID e recalcula o layout.
+    * **Contagem:** O Header "escuta" o estado global para mostrar o número de itens instantaneamente.
+2.  **Catálogo:**
+    * Armazenamento da lista de produtos vindos da API (ou JSON local) para distribuição eficiente entre componentes.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📂 Estrutura de Pastas (Padrão Redux)
 
-### `npm run eject`
+A organização reflete a separação entre UI e Lógica de Estado:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```text
+src/
+├── components/      # Componentes visuais (Header, Produto)
+├── pages/           # Rotas da aplicação
+├── store/           # O "Cérebro" da aplicação
+│   ├── reducers/    # Fatias de estado (carrinho.js, jogos.js)
+│   └── index.js     # Configuração da Store
+├── styles/          # Estilos globais
+└── App.js           # Integração com o <Provider>
