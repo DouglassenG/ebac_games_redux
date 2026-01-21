@@ -1,30 +1,38 @@
-import { PreloadedState } from '@reduxjs/toolkit'
-import { RenderOptions, render } from '@testing-library/react'
-import { RootState, Appstore, configuraStore } from '../store'
-import { PropsWithChildren } from 'react'
+import React, { PropsWithChildren } from 'react'
+import { render, RenderOptions } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { configureStore, PreloadedState } from '@reduxjs/toolkit'
+import { RootState } from '../store' // Ajuste o caminho se necessário
+import carrinhoReducer from '../store/reducers/carrinho'
+import api from '../services/api'
+import { BrowserRouter } from 'react-router-dom'
 
-interface extendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>
-  store?: Appstore
+  store?: ReturnType<typeof configureStore>
 }
 
 export function renderizaComProvider(
-  elemento: React.ReactElement,
+  ui: React.ReactElement,
   {
-    preloadedState = {},
-    store = configuraStore({ preloadedState }),
-    ...opcoesAcicionais
-  }: extendedRenderOptions = {}
+    preloadedState,
+    store = configureStore({
+      reducer: {
+        carrinho: carrinhoReducer,
+        [api.reducerPath]: api.reducer
+      },
+      preloadedState
+    }),
+    ...renderOptions
+  }: ExtendedRenderOptions = {}
 ) {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  function Encapsulador({ children }: PropsWithChildren<{}>): JSX.Element {
-    return <Provider store={store}>{children}</Provider>
+  function Wrapper({ children }: PropsWithChildren<unknown>): JSX.Element {
+    return (
+      <Provider store={store}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </Provider>
+    )
   }
 
-  return {
-    store,
-    ...render(elemento, { wrapper: Encapsulador }),
-    ...opcoesAcicionais
-  }
+  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
 }

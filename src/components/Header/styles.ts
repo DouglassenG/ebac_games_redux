@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { cores } from '../../styles'
 
@@ -7,31 +8,48 @@ export const Header = styled.header`
     ${cores.corPrincipal},
     ${cores.corSecundaria}
   );
-  margin: 80px 0;
-  padding: 16px 24px;
-  display: flex;
+  padding: 24px;
   border-radius: 6px;
-  align-items: center;
+  margin-bottom: 80px;
 
-  h1 {
-    font-size: 18px;
-    flex: 1;
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  div {
-    display: flex;
-    align-items: center;
-    img {
-      width: 18px;
-      margin-right: 8px;
+  nav {
+    ul {
+      display: flex;
+
+      li {
+        margin-left: 16px;
+
+        a {
+          color: ${cores.branca};
+          text-decoration: none;
+        }
+      }
     }
   }
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    .container {
+      flex-direction: column;
+    }
 
-    div {
+    nav {
       margin-top: 16px;
     }
+  }
+`
+
+export const CartButton = styled(Link)`
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 18px;
+    margin-left: 8px;
   }
 `

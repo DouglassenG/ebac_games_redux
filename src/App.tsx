@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
 import Header from './components/Header'
-import Produtos from './containers/Produtos'
 import { GlobalStyle } from './styles'
-import { store } from './store'
 import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { store } from './store'
+import Home from './pages/Home'
+import Categorias from './pages/Categorias'
 
 export type Game = {
   id: number
@@ -18,11 +19,16 @@ export type Game = {
 function App() {
   return (
     <Provider store={store}>
-      <GlobalStyle />
-      <div className="container">
-        <Header />
-        <Produtos />
-      </div>
+      <BrowserRouter>
+        <GlobalStyle />
+        <div className="container">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/categorias" element={<Categorias />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </Provider>
   )
 }
